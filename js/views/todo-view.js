@@ -19,6 +19,7 @@ var app = app || {};
 		events: {
 			'click .toggle': 'toggleCompleted',
 			'dblclick label': 'edit',
+			'click .edit-btn': 'edit',
 			'click .destroy': 'clear',
 			'keypress .edit': 'updateOnEnter',
 			'keydown .edit': 'revertOnEscape',
@@ -47,9 +48,19 @@ var app = app || {};
 			if (this.model.changed.id !== undefined) {
 				return;
 			}
-
+			// Add "...Done" when a task i completed, remove it if not
+			// Make sure it's not already there before adding it...
+			/*if(this.model.attributes.completed){
+				if(this.model.attributes.title.indexOf('...Done') == -1){
+					this.model.attributes.title += '...Done';
+				}
+			} else {
+				this.model.attributes.title = this.model.attributes.title.replace(/...Done/g,'');
+			}*/
+			
 			this.$el.html(this.template(this.model.toJSON()));
 			this.$el.toggleClass('completed', this.model.get('completed'));
+			
 			this.toggleVisible();
 			this.$input = this.$('.edit');
 			return this;
